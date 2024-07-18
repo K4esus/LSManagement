@@ -1,21 +1,71 @@
-from flask import Flask
-from flask import render_template
+import sys
+
+from flask import Flask, render_template, request, redirect, flash, url_for
 import database.database as db
+import json
+from utils import Field
 
 
 app = Flask(__name__)
+attributes = ["Feldnummer", "Frucht", "Vorfrucht", "Zyklus", "Kalk", "Dünger", "pflügen", "walzen", "Status", "Feldgröße(in ha)"]
 
-
+def fieldCheck(fields) -> bool:
+    if type(fields) == list:
+        return True
+    elif type(fields) == tuple:
+        return False
+    else:
+        TypeError("Database return is funky")
 @app.route("/", methods=["GET"])
 @app.route("/index")
 def index():
-    user = {'username': 'Miguel'}
-    attributes = ["Feldnummer", "Frucht", "Vorfrucht", "Zyklus", "Kalk", "Dünger", "pflügen", "walzen", "Status", "Feldgröße"]
     data = db.Database("../database/main.db")
-    testfield = data.readall()
+    fields = data.readall()
+    fields_type = fieldCheck(fields)
+    return render_template('index.jinja', attributes = attributes, fields = fields, fields_type=fields_type)
 
-    return render_template('index.jinja', attributes = attributes, testfield = testfield)
+@app.route("/search", methods=["POST"])
+def search():
+    data = db.Database("../database/main.db")
+    search_query = request.form["search_query"]
+    fields = data.read(search_query)
+    fields_type = fieldCheck(fields)
+    if fields != None:
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
+    else:
+        fields = data.readall()
+        fields_type = fieldCheck(fields)
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, notFound="Searchterm not found")
 
+def json_to_field(json:dict) -> Field:
+    fieldnumber = json["fieldnumber"]
+    newFieldData = {
+         "crop":json["crop"],
+         "precrop":json["precrop"],
+         "cycle":json["cycle"],
+         "lime":json["lime"],
+         "fertilizer":json["fertilizer"],
+         "plow":json["plow"],
+         "roll":json["roll"],
+         "status":json["status"],
+         "fieldsize":json["fieldsize"],
+    }
+    return Field(fieldnumber, newFieldData)
+
+@app.route("/add", methods=["GET", "POST"])
+def add():
+    if request.method == "GET":
+        return render_template("add.jinja", attributes=attributes)
+    else:
+        data = db.Database("../database/main.db")
+        print(request.get_json())
+        newField = request.get_json()
+        try:
+            data.create(json_to_field(newField["text"]))
+        except:
+            print("feld gibs schon")
+        finally:
+            return redirect("index", code=302)
 
 if __name__ == "__main__":
     app.run(

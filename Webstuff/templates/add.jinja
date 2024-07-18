@@ -1,0 +1,173 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <table style="width:100%">
+        <tr>
+            {% for attribute in attributes %}
+                <th>{{ attribute }}</th>
+            {% endfor %}
+        </tr>
+        <tr>
+            <!-- Input for fieldnumber -->
+            <th>
+                <form>
+                     <input id="fieldnumber" class="fieldnumber_input" name="fieldnumber" type="text" >
+                </form>
+            </th>
+            <!-- Input for crop -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownCrop" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  Link 1
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','Link 1')">Link 1</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','Link 2')">Link 2</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','Link 3')">Link 3</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for precrop -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownPrecrop" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  Link 1
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPrecrop','Link 1')">Link 1</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPrecrop','Link 2')">Link 2</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPrecrop','Link 3')">Link 3</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for cycle-->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownCycle" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  Link 1
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','Link 1')">Link 1</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','Link 2')">Link 2</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','Link 3')">Link 3</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for lime -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownLime" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  NEIN
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownLime','JA')">JA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownLime','NEIN')">NEIN</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for fertilizer -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownFertilizer" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  NEIN
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownFertilizer','JA')">JA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownFertilizer','NEIN')">NEIN</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for plow -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownPlow" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  NEIN
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPlow','JA')">JA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPlow','NEIN')">NEIN</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for roll -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownRoll" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  NEIN
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownRoll','JA')">JA</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownRoll','NEIN')">NEIN</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for status -->
+            <th>
+                <div class="dropdown">
+                <button id="dropdownStatus" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
+                  Link 1
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','Link 1')">Link 1</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','Link 2')">Link 2</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','Link 3')">Link 3</a></li>
+                </ul>
+              </div>
+            </th>
+            <!-- Input for fieldsize -->
+            <th>
+                <form>
+                     <input id="fieldsize" class="fieldsize_input" name="fielsize" type="text">
+                </form>
+            </th>
+        </tr>
+    </table>
+    <button type="button" onclick="confirm()">Bestätigen</button>
+
+    <script>
+        function updateDropdownText(id, text) {
+            document.getElementById(id).innerText = text;
+        }
+        function confirm() {
+            const fieldnumber = document.getElementById('fieldnumber').value;
+            const crop = document.getElementById('dropdownCrop').innerText;
+            const precrop = document.getElementById('dropdownPrecrop').innerText;
+            const cycle = document.getElementById('dropdownCycle').innerText;
+            const lime = document.getElementById('dropdownLime').innerText;
+            const fertilizer = document.getElementById('dropdownFertilizer').innerText;
+            const plow = document.getElementById('dropdownPlow').innerText;
+            const roll = document.getElementById('dropdownRoll').innerText;
+            const status = document.getElementById('dropdownStatus').innerText;
+            const fieldsize = document.getElementById('fieldsize').value;
+            //console.log(window.location.href);
+
+
+            const jsonObject = {
+                fieldnumber: fieldnumber,
+                crop: crop,
+                precrop: precrop,
+                cycle: cycle,
+                lime: lime,
+                fertilizer: fertilizer,
+                plow: plow,
+                roll: roll,
+                status: status,
+                fieldsize: fieldsize
+            };
+            sendTextToBackend(jsonObject);
+            window.location.replace(window.location.origin)
+        }
+        function sendTextToBackend(text) {
+            fetch(window.location.href, {  // Ersetze die URL durch die deines Backends
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ text })
+            })
+            .then(response => response.json())
+            .then(data => console.log('Success:', data))
+            .catch((error) => console.error('Error:', error));
+        }
+    </script>
+{% endblock %}

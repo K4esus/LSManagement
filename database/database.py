@@ -31,6 +31,7 @@ class Database:
                                 field.status,
                                 field.fieldsize)
                             )
+        self.conn.commit()
 
     def read(self, fieldnumber: int):
         return self.cursor.execute("SELECT * FROM felddaten WHERE fieldnumber=?",
@@ -62,9 +63,12 @@ class Database:
         for key, value in variable.items():
             if value is not None:
                 self.cursor.execute(f"UPDATE felddaten SET {key}=? WHERE fieldnumber=?", (value, fieldnumber))
+                self.conn.commit()
                 break
         else:
             raise ValueError("Nothing to update!")
 
     def delete(self, fieldnumber: int):
         self.cursor.execute("Delete from felddaten WHERE fieldnumber=?", (fieldnumber,))
+        self.conn.commit()
+

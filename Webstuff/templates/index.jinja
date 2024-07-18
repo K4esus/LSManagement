@@ -3,18 +3,29 @@
 {% block content %}
     <div>
         <table style="width:100%">
+        <!-- Spaltenbeschreibung-->
           <tr>
               {% for attribute in attributes %}
               <th>{{ attribute }}</th>
               {% endfor %}
           </tr>
-            {% for field in testfield %}
-          <tr>
-              {% for attribute in field %}
-              <th>{{ attribute }}</th>
-              {% endfor %}
-          </tr>
-            {% endfor %}
+        <!-- Zeilen-->
+
+                {% if not fields_type %}
+                    <tr>
+                        {% for attribute in fields %}
+                            <th>{{ attribute }}</th>
+                        {% endfor %}
+                    </tr>
+                {% else %}
+                    {% for field in fields %}
+                        <tr>
+                            {% for attribute in field %}
+                                <th>{{ attribute }}</th>
+                            {% endfor %}
+                        </tr>
+                    {% endfor %}
+                {% endif %}
         </table>
     </div>
 {% endblock %}
