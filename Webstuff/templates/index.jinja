@@ -1,0 +1,20 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <div>
+        <table style="width:100%">
+          <tr>
+              {% for attribute in attributes %}
+              <th>{{ attribute }}</th>
+              {% endfor %}
+          </tr>
+            {% for field in testfield %}
+          <tr>
+              {% for attribute in field %}
+              <th>{{ attribute }}</th>
+              {% endfor %}
+          </tr>
+            {% endfor %}
+        </table>
+    </div>
+{% endblock %}
