@@ -36,8 +36,32 @@ class Database:
     def read(self, fieldnumber: int):
         return self.cursor.execute("SELECT * FROM felddaten WHERE fieldnumber=?",
                                    (fieldnumber,)).fetchone()
+
     def readall(self):
         return self.cursor.execute("SELECT * FROM felddaten").fetchall()
+
+    def minimize_field(self, field: Field):
+        minimized = []
+        for key, value in field.items():
+            if value != "":
+                minimized.append((key, value))
+
+        return minimized
+
+    def read_by_attribute(self, field: Field):
+        search = ""
+        counter = 0
+        mini = self.minimize_field(field)
+        for key, value in mini:
+            counter += 1
+            if counter == len(mini):
+                search += f"{key}='{value}' "
+            else:
+                search += f"{key}='{value}' AND "
+        if len(search) > 0:
+            return self.cursor.execute("SELECT * FROM felddaten WHERE " + search).fetchall()
+        else:
+            return self.readall()
 
     """
             :param fieldnumber: primary key, defines what field we update
@@ -55,6 +79,7 @@ class Database:
 
             :return:
             """
+
     def update(
             self,
             fieldnumber: int,
@@ -62,13 +87,9 @@ class Database:
     ):
         for key, value in variable.items():
             if value is not None:
-                self.cursor.execute(f"UPDATE felddaten SET {key}=? WHERE fieldnumber=?", (value, fieldnumber))
-                self.conn.commit()
-                break
-        else:
-            raise ValueError("Nothing to update!")
+                self.cursor.execute(f"UPDATE felddaten SET '{key}'=? WHERE fieldnumber=?", (value, fieldnumber))
+        self.conn.commit()
 
     def delete(self, fieldnumber: int):
         self.cursor.execute("Delete from felddaten WHERE fieldnumber=?", (fieldnumber,))
         self.conn.commit()
-

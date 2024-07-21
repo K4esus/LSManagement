@@ -14,3 +14,13 @@ class Field:
 
     def raw_dict(self):
         return self.field_data
+
+    def __len__(self):
+        return len(self.field_data)
+
+    def items(self):
+        temp = self.field_data
+        temp["fieldnumber"] = self.fieldnumber
+        return temp.items()
+
+
