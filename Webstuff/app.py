@@ -75,14 +75,10 @@ def add():
         return render_template("add.jinja", attributes=attributes)
     else:
         data = db.Database("../database/main.db")
-        print(request.get_json())
+        #print(request.get_json())
         newField = request.get_json()
-        try:
-            data.create(json_to_field(newField["text"]))
-        except:
-            print("feld gibs schon")
-        finally:
-            return redirect("index", code=302)
+        data.create(json_to_field(newField["text"]))
+        return redirect("index", code=302)
 
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
@@ -94,8 +90,8 @@ def edit(id):
         return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
     else:
         editField = request.get_json()
-        print(editField["text"])
-        print(len(editField["text"]))
+        #print(editField["text"])
+        #print(len(editField["text"]))
         if len(editField["text"]) == 10:
             editField = json_to_field(editField["text"])
             data.update(editField.fieldnumber, editField.raw_dict())

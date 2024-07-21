@@ -15,6 +15,9 @@ class Field:
     def raw_dict(self):
         return self.field_data
 
+    def __str__(self):
+        return f"Field {self.fieldnumber}: {self.field_data}"
+
     def __len__(self):
         return len(self.field_data)
 

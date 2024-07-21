@@ -1,10 +1,12 @@
 import sqlite3
+from datetime import datetime
 
-from utils import Field
+from utils import Field, CustomLogger
 
 
 class Database:
     def __init__(self, path):
+        self.logger = CustomLogger("database", start_stamp=datetime.now())
         self.path = path
         self.conn: sqlite3.Connection = sqlite3.connect(path)
         self.cursor: sqlite3.Cursor = self.conn.cursor()
@@ -18,7 +20,7 @@ class Database:
         )
 
     def create(self, field: Field):
-        self.cursor.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)",
+        try: self.cursor.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)",
                             (
                                 field.fieldnumber,
                                 field.crop,
@@ -31,7 +33,13 @@ class Database:
                                 field.status,
                                 field.fieldsize)
                             )
+
+        except:
+            self.logger.debug(f"failed to create field {field}")
+            return
         self.conn.commit()
+        self.logger.debug(f"new field created with {field}")
+
 
     def read(self, fieldnumber: int):
         return self.cursor.execute("SELECT * FROM felddaten WHERE fieldnumber=?",
@@ -89,7 +97,9 @@ class Database:
             if value is not None:
                 self.cursor.execute(f"UPDATE felddaten SET '{key}'=? WHERE fieldnumber=?", (value, fieldnumber))
         self.conn.commit()
+        self.logger.debug(f"updated field {fieldnumber} with {variable}")
 
     def delete(self, fieldnumber: int):
         self.cursor.execute("Delete from felddaten WHERE fieldnumber=?", (fieldnumber,))
         self.conn.commit()
+        self.logger.debug(f"removed field {fieldnumber}")
