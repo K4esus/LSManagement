@@ -119,10 +119,19 @@
         </tr>
     </table>
     <button type="button" onclick="confirm()">Bestätigen</button>
+    <button type="button" onclick="yeetusDeletus()">Löschen</button>
 
     <script>
         function updateDropdownText(id, text) {
             document.getElementById(id).innerText = text;
+        }
+        function yeetusDeletus() {
+            const fieldnumber = document.getElementById('fieldnumber').innerText;
+            const jsonObject = {
+                fieldnumber: fieldnumber
+            }
+            sendTextToBackend(jsonObject);
+            window.location.replace(window.location.origin)
         }
         function confirm() {
             const fieldnumber = document.getElementById('fieldnumber').innerText;

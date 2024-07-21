@@ -94,11 +94,15 @@ def edit(id):
         return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
     else:
         editField = request.get_json()
-        print(editField)
-        editField = json_to_field(editField["text"])
-        data.update(editField.fieldnumber, editField.raw_dict())
+        print(editField["text"])
+        print(len(editField["text"]))
+        if len(editField["text"]) == 10:
+            editField = json_to_field(editField["text"])
+            data.update(editField.fieldnumber, editField.raw_dict())
+        else:
+            data.delete(editField["text"]["fieldnumber"])
 
-        return redirect("index", code=302)
+        return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

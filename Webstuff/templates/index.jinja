@@ -123,7 +123,7 @@
 
                 {% if not fields_type %}
                     <tr>
-                        <th><button type="button">{{ fields[0] }}</button></th>
+                        <th><button type="button" onclick=window.location.replace("edit/{{ fields[0] }}")>{{ fields[0] }}</button></th>
                         <th>{{ fields[1] }}</th>
                         <th>{{ fields[2] }}</th>
                         <th>{{ fields[3] }}</th>
