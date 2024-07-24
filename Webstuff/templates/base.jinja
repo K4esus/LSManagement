@@ -24,13 +24,7 @@ table, th, td {
         <div>{{ notFound }}</div>
     </form>
     <button type="button" onclick="addField()">Hinzufügen</button>
-    {% with messages = get_flashed_messages()%}
-    {% if messages%}
-    {% for message in messages%}
-    <p>{{message}}</p>
-    {%endfor%}
-    {%endif%}
-    {%endwith%}
+
     <script>
         function addField() {
             window.location.replace("/add")

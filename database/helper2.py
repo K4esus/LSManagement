@@ -1,6 +1,7 @@
 import database as db
 from utils import Field
 
+
 field_data = {"crop":"LEER",
          "precrop":"WEIZEN",
          "cycle":"H1.1",
@@ -23,6 +24,15 @@ def test_db():
     print(data.read(999))
     data.delete(999)
 
+def test_user():
+    data = db.Database("../database/main.db")
+    username = "Nig"
+    password = "test_password"
+    data.add_user(username, password)
+    print(data.check_user(username, password))
+
+
 
 if __name__ == '__main__':
-    test_db()
+    #test_db()
+    test_user()

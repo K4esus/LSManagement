@@ -1,12 +1,13 @@
 import sqlite3
 from datetime import datetime
-
+from werkzeug.security import generate_password_hash, check_password_hash
 from utils import Field, CustomLogger
+
+logger = CustomLogger("database", start_stamp=datetime.now())
 
 
 class Database:
     def __init__(self, path):
-        self.logger = CustomLogger("database", start_stamp=datetime.now())
         self.path = path
         self.conn: sqlite3.Connection = sqlite3.connect(path)
         self.cursor: sqlite3.Cursor = self.conn.cursor()
@@ -18,28 +19,46 @@ class Database:
             "(fieldnumber INTEGER PRIMARY KEY, crop TEXT,precrop TEXT,cycle TEXT,lime TEXT,"
             "fertilizer TEXT,plow TEXT,roll TEXT,status TEXT,fieldsize REAL)"
         )
+        cursor.execute("CREATE TABLE IF NOT EXISTS user "
+                       "(username TEXT PRIMARY KEY, password_hash TEXT)")
 
-    def create(self, field: Field):
-        try: self.cursor.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)",
-                            (
-                                field.fieldnumber,
-                                field.crop,
-                                field.precrop,
-                                field.cycle,
-                                field.lime,
-                                field.fertilizer,
-                                field.plow,
-                                field.roll,
-                                field.status,
-                                field.fieldsize)
-                            )
-
+    def add_user(self, username, password):
+        password_hash = generate_password_hash(password)
+        #print(password_hash)
+        try:
+            self.cursor.execute("INSERT INTO user VALUES (?, ?)", (username, password_hash))
         except:
-            self.logger.debug(f"failed to create field {field}")
+            logger.debug(f"failed to insert user {username}")
             return
         self.conn.commit()
-        self.logger.debug(f"new field created with {field}")
+        logger.debug(f"added user {username}")
 
+    def check_user(self, username, password):
+        password_hash = self.cursor.execute("SELECT password_hash FROM user WHERE username = ?", (username,)).fetchone()
+        print(password_hash[0])
+        return check_password_hash(password_hash[0], password)
+
+    def create(self, field: Field):
+        try:
+            self.cursor.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)",
+                                (
+                                    field.fieldnumber,
+                                    field.crop,
+                                    field.precrop,
+                                    field.cycle,
+                                    field.lime,
+                                    field.fertilizer,
+                                    field.plow,
+                                    field.roll,
+                                    field.status,
+                                    field.fieldsize)
+                                )
+
+        except:
+            logger.debug(f"failed to create field {field}")
+            return
+        self.conn.commit()
+        logger.debug(f"new field created with {field}")
 
     def read(self, fieldnumber: int):
         return self.cursor.execute("SELECT * FROM felddaten WHERE fieldnumber=?",
@@ -97,9 +116,9 @@ class Database:
             if value is not None:
                 self.cursor.execute(f"UPDATE felddaten SET '{key}'=? WHERE fieldnumber=?", (value, fieldnumber))
         self.conn.commit()
-        self.logger.debug(f"updated field {fieldnumber} with {variable}")
+        logger.debug(f"updated field {fieldnumber} with {variable}")
 
     def delete(self, fieldnumber: int):
         self.cursor.execute("Delete from felddaten WHERE fieldnumber=?", (fieldnumber,))
         self.conn.commit()
-        self.logger.debug(f"removed field {fieldnumber}")
+        logger.debug(f"removed field {fieldnumber}")
