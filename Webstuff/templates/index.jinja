@@ -216,7 +216,7 @@
             sendTextToBackend(jsonObject);
         }
         function sendTextToBackend(text) {
-            fetch(window.location.origin, {  // Ersetze die URL durch die deines Backends
+            fetch(window.location.origin + "/index", {  // Ersetze die URL durch die deines Backends
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

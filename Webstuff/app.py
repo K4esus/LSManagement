@@ -3,8 +3,7 @@ import database.database as db
 from utils import Field
 from config import Config
 from forms import LoginForm
-from flask_login import LoginManager, UserMixin
-from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 
 app = Flask(__name__)
 app.config.from_object(Config)
@@ -12,6 +11,26 @@ login = LoginManager()
 app.config['SECRET_KEY'] = Config.SECRET_KEY
 attributes = ["Feldnummer", "Frucht", "Vorfrucht", "Zyklus", "Kalk", "Dünger", "pflügen", "walzen", "Status",
               "Feldgröße(in ha)"]
+
+
+# Flask-Login konfigurieren
+login_manager = LoginManager()
+login_manager.init_app(app)
+login_manager.login_view = 'login'
+
+
+# User-Klasse erstellen
+class User(UserMixin):
+    def __init__(self, username):
+        self.id = username
+
+
+@login_manager.user_loader
+def load_user(user_id):
+    data = db.Database("../database/main.db")
+    if data.get_user(user_id):
+        return User(user_id)
+    return None
 
 
 def json_to_field(json: dict) -> Field:
@@ -42,15 +61,25 @@ def fieldCheck(fields) -> bool:
 @app.route("/", methods=["GET", "POST"])
 @app.route('/login', methods=['GET', 'POST'])
 def login():
+    if current_user.is_authenticated:
+        return redirect(url_for('index'))
+
+    data = db.Database("../database/main.db")
     form = LoginForm()
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
             form.username.data, form.remember_me.data))
-        return redirect(url_for('index'))
+        if data.check_user(form.username.data, form.password.data):
+            user = User(form.username.data)
+            remember_me = form.remember_me.data
+            login_user(user, remember_me)
+            return redirect(url_for('index'))
     return render_template('login.jinja', title='Sign In', form=form)
+
 
 #@app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
+@login_required
 def index():
     global searchTerm
     data = db.Database("../database/main.db")
@@ -64,6 +93,7 @@ def index():
 
 
 @app.route("/attributesSearch", methods=["GET", "POST"])
+@login_required
 def attributesSearch():
     data = db.Database("../database/main.db")
 
@@ -73,7 +103,15 @@ def attributesSearch():
     return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
 
 
+@app.route("/logout")
+@login_required
+def logout():
+    logout_user()
+    return redirect(url_for('login'))
+
+
 @app.route("/search", methods=["POST"])
+@login_required
 def search():
     data = db.Database("../database/main.db")
     search_query = request.form["search_query"]
@@ -89,6 +127,7 @@ def search():
 
 
 @app.route("/add", methods=["GET", "POST"])
+@login_required
 def add():
     if request.method == "GET":
         return render_template("add.jinja", attributes=attributes)
@@ -97,10 +136,11 @@ def add():
         #print(request.get_json())
         newField = request.get_json()
         data.create(json_to_field(newField["text"]))
-        return redirect("index", code=302)
+        return redirect(url_for("index"))
 
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
+@login_required
 def edit(id):
     data = db.Database("../database/main.db")
     if request.method == "GET":

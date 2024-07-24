@@ -163,7 +163,7 @@
                 fieldnumber: fieldnumber
             }
             sendTextToBackend(jsonObject);
-            window.location.replace(window.location.origin)
+            window.location.replace(window.location.origin + "/index")
         }
         function confirm() {
             const fieldnumber = document.getElementById('fieldnumber').innerText;
@@ -192,7 +192,7 @@
                 fieldsize: fieldsize
             };
             sendTextToBackend(jsonObject);
-            window.location.replace(window.location.origin)
+            window.location.replace(window.location.origin + "/index")
         }
         function sendTextToBackend(text) {
             fetch(window.location.href, {  // Ersetze die URL durch die deines Backends

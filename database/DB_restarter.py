@@ -28,7 +28,7 @@ with open("../testdata/Mockdata.csv") as f:
 
 # adds a test user to user
 username = "Nig"
-password = "test_password"
-password_hash = generate_password_hash("password")
-#CONNECTION.execute("INSERT INTO user VALUES (?,?)", (username, password_hash))
+password = "password"
+password_hash = generate_password_hash(password)
+CONNECTION.execute("INSERT INTO user VALUES (?,?)", (username, password_hash))
 CONNECTION.commit()

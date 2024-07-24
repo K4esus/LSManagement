@@ -12,10 +12,10 @@
 table, th, td {
   border:1px solid black;
 }
-
 </style>
 <body>
-    <div><a href="/index">Home</a></div>
+    <div><a href="{{ url_for('index') }}">Home</a></div>
+    <div><a href="{{ url_for('logout') }}">Logout</a></div>
     <hr>
     <form action="/search" method="POST">
         <input class="search-input" name="search_query" type="search" placeholder="Suche nach Nummer">

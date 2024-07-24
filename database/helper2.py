@@ -26,10 +26,11 @@ def test_db():
 
 def test_user():
     data = db.Database("../database/main.db")
-    username = "Nig"
-    password = "test_password"
+    username = "Emilia"
+    password = "password"
     data.add_user(username, password)
-    print(data.check_user(username, password))
+    #print(data.check_user(username, password))
+    print(data.get_user(username))
 
 
 
