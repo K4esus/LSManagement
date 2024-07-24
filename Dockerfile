@@ -3,7 +3,7 @@ FROM python:3.12-slim
 
 # Set the working directory
 WORKDIR /app
-COPY ../LSManagement /app
+COPY /LSManagement /app
 # Copy the requirements file into the container
 
 
