@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
-import database.database as db
+from database import database as db
 from utils import Field
 from config import Config
 from forms import LoginForm
