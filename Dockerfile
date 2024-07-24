@@ -3,9 +3,11 @@ FROM python:3.12-slim
 
 # Set the working directory
 WORKDIR /app
-COPY /LSManagement /app
+COPY database /app
+COPY utils /app
+COPY Webstuff /app
 # Copy the requirements file into the container
-
+COPY requirements.txt /app/
 
 RUN pip install --upgrade pip
 # Install the dependencies
