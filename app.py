@@ -27,7 +27,7 @@ class User(UserMixin):
 
 @login_manager.user_loader
 def load_user(user_id):
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
     if data.get_user(user_id):
         return User(user_id)
     return None
@@ -64,7 +64,7 @@ def login():
     if current_user.is_authenticated:
         return redirect(url_for('index'))
 
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
     form = LoginForm()
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
@@ -82,7 +82,7 @@ def login():
 @login_required
 def index():
     global searchTerm
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
     if request.method == "GET":
         fields = data.readall()
         fields_type = fieldCheck(fields)
@@ -95,7 +95,7 @@ def index():
 @app.route("/attributesSearch", methods=["GET", "POST"])
 @login_required
 def attributesSearch():
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
 
     #print(searchTerm)
     fields = data.read_by_attribute(json_to_field(searchTerm["text"]))
@@ -113,7 +113,7 @@ def logout():
 @app.route("/search", methods=["POST"])
 @login_required
 def search():
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
     search_query = request.form["search_query"]
     fields = data.read(search_query)
     fields_type = fieldCheck(fields)
@@ -132,7 +132,7 @@ def add():
     if request.method == "GET":
         return render_template("add.jinja", attributes=attributes)
     else:
-        data = db.Database("../database/main.db")
+        data = db.Database("database/main.db")
         #print(request.get_json())
         newField = request.get_json()
         data.create(json_to_field(newField["text"]))
@@ -142,7 +142,7 @@ def add():
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
 def edit(id):
-    data = db.Database("../database/main.db")
+    data = db.Database("database/main.db")
     if request.method == "GET":
         fields = data.read(id)
         fields_type = fieldCheck(fields)
