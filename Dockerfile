@@ -4,13 +4,13 @@ FROM python:3.12-slim
 # Setzen des Arbeitsverzeichnisses im Container
 WORKDIR /app
 
-COPY /database/__init__.py /app/database/
-COPY /database/database.py /app/database/
-COPY /database/DB_restarter.py /app/database/
-COPY /database/helper2.py /app/database/
-COPY /templates /app/templates
-COPY /testdata /app/testdata
-COPY /utils /app/utils
+COPY database/__init__.py /app/database/
+COPY database/database.py /app/database/
+COPY database/DB_restarter.py /app/database/
+COPY database/helper2.py /app/database/
+COPY templates /app/templates
+COPY testdata /app/testdata
+COPY utils /app/utils
 COPY app.py .
 COPY config.py .
 COPY Dockerfile .
