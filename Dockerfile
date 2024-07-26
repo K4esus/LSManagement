@@ -5,7 +5,6 @@ FROM python:3.12-slim
 WORKDIR /app
 
 COPY /database /app/database
-COPY /logs /app/logs
 COPY /templates /app/templates
 COPY /testdata /app/testdata
 COPY /utils /app/utils
