@@ -1,17 +1,16 @@
 import database as db
 from utils import Field
 
-
-field_data = {"crop":"LEER",
-         "precrop":"WEIZEN",
-         "cycle":"H1.1",
-         "lime":"NEIN",
-         "fertilizer":"NEIN",
-         "plow":"NEIN",
-         "roll":"NEIN",
-         "status":"SCWARZ",
-         "fieldsize":37.41
-}
+field_data = {"crop": "LEER",
+              "precrop": "WEIZEN",
+              "cycle": "H1.1",
+              "lime": "NEIN",
+              "fertilizer": "NEIN",
+              "plow": "NEIN",
+              "roll": "NEIN",
+              "status": "SCWARZ",
+              "fieldsize": 37.41
+              }
 
 
 def test_db():
@@ -24,14 +23,17 @@ def test_db():
     print(data.read(999))
     data.delete(999)
 
+
 def test_user():
     data = db.Database("../database/main.db")
-    username = "Emilia"
-    password = "password"
-    data.add_user(username, password)
-    #print(data.check_user(username, password))
-    print(data.get_user(username))
-
+    username = ""
+    password = ""
+    if username != "" and password != "":
+        data.add_user(username, password)
+        #print(data.check_user(username, password))
+        print(data.get_user(username))
+    else:
+        print("Username or password is empty")
 
 
 if __name__ == '__main__':

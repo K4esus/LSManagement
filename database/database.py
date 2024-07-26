@@ -38,10 +38,12 @@ class Database:
         return check_password_hash(password_hash[0], password)
 
     def get_user(self, username):
-        if len(self.cursor.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()) == 2:
-            return True
-        else:
-            return False
+        foundUser = self.cursor.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()
+        if foundUser is not None:
+            if len(foundUser) == 2:
+                return True
+            else:
+                return False
 
     def create(self, field: Field):
         try:

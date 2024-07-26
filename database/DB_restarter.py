@@ -20,15 +20,10 @@ CONNECTION.execute("CREATE TABLE IF NOT EXISTS user "
                    "(username TEXT PRIMARY KEY, password_hash TEXT)")
 
 # fills felddaten with test data
-with open("../testdata/Mockdata.csv") as f:
+with open("../testdata/Mockdata2.csv") as f:
     for index, row in enumerate(csv.reader(f)):
         if index > 1:
             print(row)
             CONNECTION.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)", row)
 
-# adds a test user to user
-username = "Nig"
-password = "password"
-password_hash = generate_password_hash(password)
-CONNECTION.execute("INSERT INTO user VALUES (?,?)", (username, password_hash))
 CONNECTION.commit()
