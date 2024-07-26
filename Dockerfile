@@ -4,20 +4,9 @@ FROM python:3.12-slim
 # Setzen des Arbeitsverzeichnisses im Container
 WORKDIR /app
 
-COPY database/__init__.py /app/database/__init__.py
-COPY database/database.py /app/database/database.py
-COPY database/DB_restarter.py /app/database/DB_restarter.py
-COPY database/helper2.py /app/database/helper2.py
-COPY templates /app/templates
-COPY testdata /app/testdata
-COPY utils /app/utils
-COPY app.py .
-COPY config.py .
-COPY Dockerfile .
-COPY forms.py .
+COPY . .
 
 # Kopieren und Installieren von Python-Abh  ngigkeiten
-COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Setzen der Umgebungsvariable FLASK_APP
