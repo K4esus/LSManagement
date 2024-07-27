@@ -1,6 +1,7 @@
 flask~=3.0.3
 flask-login
 flask-wtf
+flask-cors
 wtforms~=3.1.2
 colorama~=0.4.6
 Werkzeug~=3.0.3
