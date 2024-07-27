@@ -175,8 +175,6 @@ def edit(id):
             "status": request.form.get("status"),
             "fieldsize": fields[9]
         }
-        print(fieldnumber)
-        print(newfield)
         data.update(fieldnumber, newfield)
         return redirect(url_for('index'))
 
