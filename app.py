@@ -127,10 +127,35 @@ def search():
         return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type,
                                notFound="Searchterm not found")
 
+@app.route("/test", methods=["GET","POST"])
+@login_required
+def test():
+    return render_template('add.jinja', attributes=attributes)
+
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
 @cross_origin()
+def add():
+    data = db.Database("database/main.db")
+    fieldnumber = request.form.get("fieldnumber")
+    newfield = {
+        "crop": request.form.get("crop"),
+        "precrop": request.form.get("precrop"),
+        "cycle": request.form.get("cycle"),
+        "lime": request.form.get("lime"),
+        "fertilizer": request.form.get("fertilizer"),
+        "plow": request.form.get("plow"),
+        "roll": request.form.get("roll"),
+        "status": request.form.get("status"),
+        "fieldsize": request.form.get("fieldsize")
+    }
+    field = Field(fieldnumber, newfield)
+    data.create(field)
+    return redirect(url_for('index'))
+
+
+"""
 def add():
     if request.method == "GET":
         return render_template("add.jinja", attributes=attributes)
@@ -140,7 +165,7 @@ def add():
         newField = request.get_json()
         data.create(json_to_field(newField["text"]))
         return redirect(url_for("index"))
-
+"""
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
