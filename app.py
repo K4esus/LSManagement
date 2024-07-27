@@ -127,67 +127,67 @@ def search():
         return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type,
                                notFound="Searchterm not found")
 
-@app.route("/test", methods=["GET","POST"])
-@login_required
-def test():
-    return render_template('add.jinja', attributes=attributes)
-
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
 @cross_origin()
 def add():
-    data = db.Database("database/main.db")
-    fieldnumber = request.form.get("fieldnumber")
-    newfield = {
-        "crop": request.form.get("crop"),
-        "precrop": request.form.get("precrop"),
-        "cycle": request.form.get("cycle"),
-        "lime": request.form.get("lime"),
-        "fertilizer": request.form.get("fertilizer"),
-        "plow": request.form.get("plow"),
-        "roll": request.form.get("roll"),
-        "status": request.form.get("status"),
-        "fieldsize": request.form.get("fieldsize")
-    }
-    field = Field(fieldnumber, newfield)
-    data.create(field)
-    return redirect(url_for('index'))
-
-
-"""
-def add():
     if request.method == "GET":
-        return render_template("add.jinja", attributes=attributes)
+        return render_template('add.jinja', attributes=attributes)
     else:
         data = db.Database("database/main.db")
-        #print(request.get_json())
-        newField = request.get_json()
-        data.create(json_to_field(newField["text"]))
-        return redirect(url_for("index"))
-"""
+        fieldnumber = request.form.get("fieldnumber")
+        newfield = {
+            "crop": request.form.get("crop"),
+            "precrop": request.form.get("precrop"),
+            "cycle": request.form.get("cycle"),
+            "lime": request.form.get("lime"),
+            "fertilizer": request.form.get("fertilizer"),
+            "plow": request.form.get("plow"),
+            "roll": request.form.get("roll"),
+            "status": request.form.get("status"),
+            "fieldsize": request.form.get("fieldsize")
+        }
+        field = Field(fieldnumber, newfield)
+        data.create(field)
+        return redirect(url_for('index'))
+
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
 @cross_origin()
 def edit(id):
     data = db.Database("database/main.db")
+    fields = data.read(id)
     if request.method == "GET":
-        fields = data.read(id)
         fields_type = fieldCheck(fields)
         return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
     else:
-        editField = request.get_json()
-        #print(editField["text"])
-        #print(len(editField["text"]))
-        if len(editField["text"]) == 10:
-            editField = json_to_field(editField["text"])
-            data.update(editField.fieldnumber, editField.raw_dict())
-        else:
-            data.delete(editField["text"]["fieldnumber"])
+        fieldnumber = fields[0]
+        newfield = {
+            "crop": request.form.get("crop"),
+            "precrop": request.form.get("precrop"),
+            "cycle": request.form.get("cycle"),
+            "lime": request.form.get("lime"),
+            "fertilizer": request.form.get("fertilizer"),
+            "plow": request.form.get("plow"),
+            "roll": request.form.get("roll"),
+            "status": request.form.get("status"),
+            "fieldsize": fields[9]
+        }
+        print(fieldnumber)
+        print(newfield)
+        data.update(fieldnumber, newfield)
+        return redirect(url_for('index'))
 
-        return redirect(url_for("index"))
 
+@app.route("/delete/<int:id>", methods=["POST"])
+@login_required
+@cross_origin()
+def delete(id):
+    data = db.Database("database/main.db")
+    data.delete(id)
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run(

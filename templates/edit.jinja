@@ -12,199 +12,106 @@
             <th id="fieldnumber">
                 {{ fields[0] }}
             </th>
-            <!-- Input for crop -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownCrop" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[1] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','WEIZEN')">WEIZEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','GERSTE')">GERSTE</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RAPS')">RAPS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','HAFER')">HAFER</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','MAIS')">MAIS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','SONNENBLUMEN')">SONNENBLUMEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','SOJA')">SOJA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','KARTOFFELN')">KARTOFFELN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RUEBEN')">RUEBEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','HIRSE')">HIRSE</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','TRAUBEN')">TRAUBEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','OLIVEN')">OLIVEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','PAPPEL')">PAPPEL</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','GRAS')">GRAS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','NNGRAS')">NNGRAS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RETTICH')">RETTICH</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','LEER')">LEER</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for precrop -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownPrecrop" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[2] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','WEIZEN')">WEIZEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','GERSTE')">GERSTE</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RAPS')">RAPS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','HAFER')">HAFER</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','MAIS')">MAIS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','SONNENBLUMEN')">SONNENBLUMEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','SOJA')">SOJA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','KARTOFFELN')">KARTOFFELN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RUEBEN')">RUEBEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','HIRSE')">HIRSE</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','TRAUBEN')">TRAUBEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','OLIVEN')">OLIVEN</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','PAPPEL')">PAPPEL</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','GRAS')">GRAS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','NNGRAS')">NNGRAS</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','RETTICH')">RETTICH</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCrop','LEER')">LEER</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for cycle-->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownCycle" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[3] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','LEER')">LEER</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','H1')">H1</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','H2')">H2</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','B')">B</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownCycle','Z')">Z</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for lime -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownLime" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[4] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownLime','JA')">JA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownLime','NEIN')">NEIN</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for fertilizer -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownFertilizer" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[5] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownFertilizer','JA')">JA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownFertilizer','NEIN')">NEIN</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for plow -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownPlow" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[6] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPlow','JA')">JA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownPlow','NEIN')">NEIN</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for roll -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownRoll" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[7] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownRoll','JA')">JA</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownRoll','NEIN')">NEIN</a></li>
-                </ul>
-              </div>
-            </th>
-            <!-- Input for status -->
-            <th>
-                <div class="dropdown">
-                <button id="dropdownStatus" type="button" class=" dropdown-toggle" data-bs-toggle="dropdown">
-                  {{ fields[8] }}
-                </button>
-                <ul class="dropdown-menu">
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','GEERNTET')">GEERNTET</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','REIF')">REIF</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','WACHSEND')">WACHSEND</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','GESAEHT')">GESAEHT</a></li>
-                    <li><a class="dropdown-item" href="#" onclick="updateDropdownText('dropdownStatus','SCHWARZ')">SCHWARZ</a></li>
-                </ul>
-              </div>
-            </th>
+             <form action="/edit/{{ fields[0] }}" method="post">
+                <th>
+                    <label for="crop"></label>
+                    <select id="crop" name="crop" required>
+                        <option value="WEIZEN" {% if fields[1] == 'WEIZEN' %}selected{% endif %}>WEIZEN</option>
+                        <option value="GERSTE" {% if fields[1] == 'GERSTE' %}selected{% endif %}>GERSTE</option>
+                        <option value="RAPS" {% if fields[1] == 'RAPS' %}selected{% endif %}>RAPS</option>
+                        <option value="HAFER" {% if fields[1] == 'HAFER' %}selected{% endif %}>HAFER</option>
+                        <option value="MAIS" {% if fields[1] == 'MAIS' %}selected{% endif %}>MAIS</option>
+                        <option value="SONNENBLUMEN" {% if fields[1] == 'SONNENBLUME' %}selected{% endif %}>SONNENBLUMEN</option>
+                        <option value="SOJA" {% if fields[1] == 'SOJA' %}selected{% endif %}>SOJA</option>
+                        <option value="KARTOFFELN" {% if fields[1] == 'KARTOFFELN' %}selected{% endif %}>KARTOFFELN</option>
+                        <option value="RUEBEN" {% if fields[1] == 'RUEBEN' %}selected{% endif %}>RUEBEN</option>
+                        <option value="HIRSE" {% if fields[1] == 'HIRSE' %}selected{% endif %}>HIRSE</option>
+                        <option value="TRAUBEN" {% if fields[1] == 'TRAUBEN' %}selected{% endif %}>TRAUBEN</option>
+                        <option value="OLIVEN" {% if fields[1] == 'OLIVEN' %}selected{% endif %}>OLIVEN</option>
+                        <option value="PAPPEL" {% if fields[1] == 'PAPPEL' %}selected{% endif %}>PAPPEL</option>
+                        <option value="GRAS" {% if fields[1] == 'GRAS' %}selected{% endif %}>GRAS</option>
+                        <option value="RETTICH" {% if fields[1] == 'RETTICH' %}selected{% endif %}>RETTICH</option>
+                        <option value="LEER" {% if fields[1] == 'LEER' %}selected{% endif %}>LEER</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="precrop"></label>
+                    <select id="precrop" name="precrop" required>
+                        <option value="WEIZEN" {% if fields[2] == 'WEIZEN' %}selected{% endif %}>WEIZEN</option>
+                        <option value="GERSTE" {% if fields[2] == 'GERSTE' %}selected{% endif %}>GERSTE</option>
+                        <option value="RAPS" {% if fields[2] == 'RAPS' %}selected{% endif %}>RAPS</option>
+                        <option value="HAFER" {% if fields[2] == 'HAFER' %}selected{% endif %}>HAFER</option>
+                        <option value="MAIS" {% if fields[2] == 'MAIS' %}selected{% endif %}>MAIS</option>
+                        <option value="SONNENBLUMEN" {% if fields[2] == 'SONNENBLUME' %}selected{% endif %}>SONNENBLUMEN</option>
+                        <option value="SOJA" {% if fields[2] == 'SOJA' %}selected{% endif %}>SOJA</option>
+                        <option value="KARTOFFELN" {% if fields[2] == 'KARTOFFELN' %}selected{% endif %}>KARTOFFELN</option>
+                        <option value="RUEBEN" {% if fields[2] == 'RUEBEN' %}selected{% endif %}>RUEBEN</option>
+                        <option value="HIRSE" {% if fields[2] == 'HIRSE' %}selected{% endif %}>HIRSE</option>
+                        <option value="TRAUBEN" {% if fields[2] == 'TRAUBEN' %}selected{% endif %}>TRAUBEN</option>
+                        <option value="OLIVEN" {% if fields[2] == 'OLIVEN' %}selected{% endif %}>OLIVEN</option>
+                        <option value="PAPPEL" {% if fields[2] == 'PAPPEL' %}selected{% endif %}>PAPPEL</option>
+                        <option value="GRAS" {% if fields[2] == 'GRAS' %}selected{% endif %}>GRAS</option>
+                        <option value="RETTICH" {% if fields[2] == 'RETTICH' %}selected{% endif %}>RETTICH</option>
+                        <option value="LEER" {% if fields[2] == 'LEER' %}selected{% endif %}>LEER</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="cycle"></label>
+                    <select id="cycle" name="cycle" required>
+                        <option value="LEER" {% if fields[3] == 'LEER' %}selected{% endif %}>LEER</option>
+                        <option value="H1" {% if fields[3] == 'H1' %}selected{% endif %}>H1</option>
+                        <option value="H2" {% if fields[3] == 'H2' %}selected{% endif %}>H2</option>
+                        <option value="B" {% if fields[3] == 'B' %}selected{% endif %}>B</option>
+                        <option value="Z" {% if fields[3] == 'Z' %}selected{% endif %}>Z</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="lime"></label>
+                    <select id="lime" name="lime" required>
+                        <option value="JA" {% if fields[4] == 'JA' %}selected{% endif %}>JA</option>
+                        <option value="NEIN" {% if fields[4] == 'NEIN' %}selected{% endif %}>NEIN</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="fertilizer"></label>
+                    <select id="fertilizer" name="fertilizer" required>
+                        <option value="JA" {% if fields[5] == 'JA' %}selected{% endif %}>JA</option>
+                        <option value="NEIN" {% if fields[5] == 'NEIN' %}selected{% endif %}>NEIN</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="plow"></label>
+                    <select id="plow" name="plow" required>
+                        <option value="JA" {% if fields[6] == 'JA' %}selected{% endif %}>JA</option>
+                        <option value="NEIN" {% if fields[6] == 'NEIN' %}selected{% endif %}>NEIN</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="roll"></label>
+                    <select id="roll" name="roll" required>
+                        <option value="JA" {% if fields[7] == 'JA' %}selected{% endif %}>JA</option>
+                        <option value="NEIN" {% if fields[7] == 'NEIN' %}selected{% endif %}>NEIN</option>
+                    </select>
+                </th>
+                <th>
+                    <label for="status"></label>
+                    <select id="status" name="status" required>
+                        <option value="GEERNTET" {% if fields[8] == 'GEERNTET' %}selected{% endif %}>GEERNTET</option>
+                        <option value="REIF" {% if fields[8] == 'REIF' %}selected{% endif %}>REIF</option>
+                        <option value="WACHSEND" {% if fields[8] == 'WACHSEND' %}selected{% endif %}>WACHSEND</option>
+                        <option value="GESAEHT" {% if fields[8] == 'GESAEHT' %}selected{% endif %}>GESAEHT</option>
+                        <option value="SCHWARZ" {% if fields[8] == 'SCHWARZ' %}selected{% endif %}>SCHWARZ</option>
+                    </select>
+                </th>
+                <button type="submit">Bestätigen</button>
+            </form>
             <!-- Input for fieldsize -->
             <th id="fieldsize">
                 {{ fields[9] }}
             </th>
         </tr>
     </table>
-    <button type="button" onclick="confirm()">Bestätigen</button>
-    <button type="button" onclick="yeetusDeletus()">Löschen</button>
-
-    <script>
-        function updateDropdownText(id, text) {
-            document.getElementById(id).innerText = text;
-        }
-        function yeetusDeletus() {
-            const fieldnumber = document.getElementById('fieldnumber').innerText;
-            const jsonObject = {
-                fieldnumber: fieldnumber
-            }
-            sendTextToBackend(jsonObject);
-            window.location.replace(window.location.origin + "/index")
-        }
-        function confirm() {
-            const fieldnumber = document.getElementById('fieldnumber').innerText;
-            const crop = document.getElementById('dropdownCrop').innerText;
-            const precrop = document.getElementById('dropdownPrecrop').innerText;
-            const cycle = document.getElementById('dropdownCycle').innerText;
-            const lime = document.getElementById('dropdownLime').innerText;
-            const fertilizer = document.getElementById('dropdownFertilizer').innerText;
-            const plow = document.getElementById('dropdownPlow').innerText;
-            const roll = document.getElementById('dropdownRoll').innerText;
-            const status = document.getElementById('dropdownStatus').innerText;
-            const fieldsize = document.getElementById('fieldsize').innerText;
-            //console.log(window.location.href);
-
-
-            const jsonObject = {
-                fieldnumber: fieldnumber,
-                crop: crop,
-                precrop: precrop,
-                cycle: cycle,
-                lime: lime,
-                fertilizer: fertilizer,
-                plow: plow,
-                roll: roll,
-                status: status,
-                fieldsize: fieldsize
-            };
-            sendTextToBackend(jsonObject);
-            window.location.replace(window.location.origin + "/index")
-        }
-        function sendTextToBackend(text) {
-            fetch(window.location.href, {  // Ersetze die URL durch die deines Backends
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ text })
-            })
-            .then(response => response.json())
-            .then(data => console.log('Success:', data))
-            .catch((error) => console.error('Error:', error));
-        }
-    </script>
+    <form action="/delete/{{ fields[0] }}" method="post">
+        <button type="submit">Löschen</button>
+    </form>
 {% endblock %}

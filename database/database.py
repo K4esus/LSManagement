@@ -45,6 +45,18 @@ class Database:
             else:
                 return False
 
+    def edit_user(self, username, password):
+        password_hash = generate_password_hash(password)
+        try:
+            self.cursor.execute("UPDATE user SET password_hash = ? WHERE username = ?",(password_hash, username))
+            self.conn.commit()
+        except:
+            logger.debug(f"failed to update user {username}")
+            return
+        logger.debug(f"updated user {username}")
+
+
+
     def create(self, field: Field):
         try:
             self.cursor.execute("INSERT INTO felddaten VALUES (?,?,?,?,?,?,?,?,?,?)",
