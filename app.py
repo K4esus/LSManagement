@@ -4,8 +4,10 @@ from utils import Field
 from config import Config
 from forms import LoginForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
+from flask_cors import CORS, cross_origin
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 login = LoginManager()
 app.config['SECRET_KEY'] = Config.SECRET_KEY
@@ -128,6 +130,7 @@ def search():
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
+@cross_origin()
 def add():
     if request.method == "GET":
         return render_template("add.jinja", attributes=attributes)
@@ -141,6 +144,7 @@ def add():
 
 @app.route("/edit/<int:id>", methods=["GET", "POST"])
 @login_required
+@cross_origin()
 def edit(id):
     data = db.Database("database/main.db")
     if request.method == "GET":
