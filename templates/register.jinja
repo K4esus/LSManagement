@@ -3,6 +3,7 @@
 {% block content %}
     <h1>Register new User</h1>
     <form action="" method="POST" novalidate>
+        {{ form.hidden_tag() }}
         <p>
             {{ form.username.label }}<br>
             {{ form.username(size=32) }}<br>
@@ -24,6 +25,7 @@
             <span style="color: red;">[{{ error }}]</span>
             {% endfor %}
         </p>
+        <p>{{ form.role() }} {{ form.role.label }}</p>
         <p>{{ form.submit() }}</p>
     </form>
 {% endblock %}

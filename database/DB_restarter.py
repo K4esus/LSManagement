@@ -17,7 +17,7 @@ CONNECTION.execute(
             "fertilizer TEXT,plow TEXT,roll TEXT,status TEXT,fieldsize REAL)"
         )
 CONNECTION.execute("CREATE TABLE IF NOT EXISTS user "
-                   "(username TEXT PRIMARY KEY, password_hash TEXT)")
+                   "(username TEXT PRIMARY KEY, password_hash TEXT, admin BOOL)")
 
 # fills felddaten with test data
 with open("../testdata/Mockdata2.csv") as f:

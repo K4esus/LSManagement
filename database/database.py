@@ -20,13 +20,13 @@ class Database:
             "fertilizer TEXT,plow TEXT,roll TEXT,status TEXT,fieldsize REAL)"
         )
         cursor.execute("CREATE TABLE IF NOT EXISTS user "
-                       "(username TEXT PRIMARY KEY, password_hash TEXT)")
+                       "(username TEXT PRIMARY KEY, password_hash TEXT, admin BOOL)")
 
-    def add_user(self, username, password):
+    def add_user(self, username, password, admin):
         password_hash = generate_password_hash(password)
         #print(password_hash)
         try:
-            self.cursor.execute("INSERT INTO user VALUES (?, ?)", (username, password_hash))
+            self.cursor.execute("INSERT INTO user VALUES (?, ?, ?)", (username, password_hash, admin))
         except:
             logger.debug(f"failed to insert user {username}")
             return
@@ -40,7 +40,15 @@ class Database:
     def get_user(self, username):
         foundUser = self.cursor.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()
         if foundUser is not None:
-            if len(foundUser) == 2:
+            if len(foundUser) == 3:
+                return True
+            else:
+                return False
+
+    def get_role(self, username):
+        foundUser = self.cursor.execute("SELECT * FROM user WHERE username = ?", (username,)).fetchone()
+        if foundUser is not None:
+            if foundUser[2]:
                 return True
             else:
                 return False

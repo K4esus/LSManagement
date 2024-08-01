@@ -71,21 +71,23 @@ def index():
     if request.method == "GET":
         fields = data.readall()
         fields_type = fieldCheck(fields)
-        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
     else:
         searchTerm = request.get_json()
         return redirect(url_for("attributesSearch"))
 
 
 @app.route("/register", methods=["GET", "POST"])
+@login_required
 def register():
     data = db.Database("database/main.db")
-    form = RegisterForm()
-    if form.validate_on_submit():
-        print(form.username.data)
-        print(form.password.data)
-        return redirect(url_for('index'))
-    return render_template('register.jinja', title='Register', form=form)
+    if data.get_role(current_user.id):
+        form = RegisterForm()
+        if form.validate_on_submit():
+            data.add_user(form.username.data, form.password.data, form.role.data)
+            return redirect(url_for('index'))
+        return render_template('register.jinja', title='Register', form=form)
+    return redirect(url_for('index'))
 
 
 @app.route("/attributesSearch", methods=["GET", "POST"])
@@ -106,7 +108,7 @@ def attributesSearch():
     }
     fields = data.read_by_attribute(newfield)
     fields_type = fieldCheck(fields)
-    return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
+    return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
 
 
 @app.route("/logout")
@@ -124,12 +126,12 @@ def search():
     fields = data.read(search_query)
     fields_type = fieldCheck(fields)
     if fields is not None:
-        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
     else:
         fields = data.readall()
         fields_type = fieldCheck(fields)
         return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type,
-                               notFound="Searchterm not found")
+                               notFound="Searchterm not found", user=current_user.id)
 
 
 @app.route("/add", methods=["GET", "POST"])

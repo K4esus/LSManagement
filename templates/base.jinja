@@ -20,6 +20,8 @@ table, th, td {
         <a href="{{ url_for('index') }}">Home</a>
         <a href="{{ url_for('logout') }}">Logout</a>
         <a href="{{ url_for('register') }}">Add User</a>
+        <br>
+        Aktueller Nutzer: {{ user }}
     </div>
     <hr>
     <form action="/search" method="POST">
