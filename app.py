@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from database import database as db
 from utils import Field
 from config import Config
-from forms import LoginForm
+from forms import LoginForm, RegisterForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_cors import CORS, cross_origin
 
@@ -13,7 +13,6 @@ login = LoginManager()
 app.config['SECRET_KEY'] = Config.SECRET_KEY
 attributes = ["Feldnummer", "Frucht", "Vorfrucht", "Zyklus", "Kalk", "Dünger", "pflügen", "walzen", "Status",
               "Feldgröße(in ha)"]
-
 
 # Flask-Login konfigurieren
 login_manager = LoginManager()
@@ -33,22 +32,6 @@ def load_user(user_id):
     if data.get_user(user_id):
         return User(user_id)
     return None
-
-
-def json_to_field(json: dict) -> Field:
-    fieldnumber = json["fieldnumber"]
-    newFieldData = {
-        "crop": json["crop"],
-        "precrop": json["precrop"],
-        "cycle": json["cycle"],
-        "lime": json["lime"],
-        "fertilizer": json["fertilizer"],
-        "plow": json["plow"],
-        "roll": json["roll"],
-        "status": json["status"],
-        "fieldsize": json["fieldsize"],
-    }
-    return Field(fieldnumber, newFieldData)
 
 
 def fieldCheck(fields) -> bool:
@@ -71,6 +54,7 @@ def login():
     if form.validate_on_submit():
         flash('Login requested for user {}, remember_me={}'.format(
             form.username.data, form.remember_me.data))
+        #print(form.username.data)
         if data.check_user(form.username.data, form.password.data):
             user = User(form.username.data)
             remember_me = form.remember_me.data
@@ -79,7 +63,6 @@ def login():
     return render_template('login.jinja', title='Sign In', form=form)
 
 
-#@app.route("/", methods=["GET", "POST"])
 @app.route("/index", methods=["GET", "POST"])
 @login_required
 def index():
@@ -94,13 +77,34 @@ def index():
         return redirect(url_for("attributesSearch"))
 
 
+@app.route("/register", methods=["GET", "POST"])
+def register():
+    data = db.Database("database/main.db")
+    form = RegisterForm()
+    if form.validate_on_submit():
+        print(form.username.data)
+        print(form.password.data)
+        return redirect(url_for('index'))
+    return render_template('register.jinja', title='Register', form=form)
+
+
 @app.route("/attributesSearch", methods=["GET", "POST"])
 @login_required
 def attributesSearch():
+    if request.method == "GET":
+        return redirect(url_for('index'))
     data = db.Database("database/main.db")
-
-    #print(searchTerm)
-    fields = data.read_by_attribute(json_to_field(searchTerm["text"]))
+    newfield = {
+        "crop": request.form.get("crop"),
+        "precrop": request.form.get("precrop"),
+        "cycle": request.form.get("cycle"),
+        "lime": request.form.get("lime"),
+        "fertilizer": request.form.get("fertilizer"),
+        "plow": request.form.get("plow"),
+        "roll": request.form.get("roll"),
+        "status": request.form.get("status"),
+    }
+    fields = data.read_by_attribute(newfield)
     fields_type = fieldCheck(fields)
     return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
 
@@ -187,9 +191,10 @@ def delete(id):
     data.delete(id)
     return redirect(url_for('index'))
 
+
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
-        port=8000,
+        port=5000,
         debug=True
     )
