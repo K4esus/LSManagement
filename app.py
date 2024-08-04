@@ -2,7 +2,7 @@ from flask import Flask, render_template, request, redirect, flash, url_for
 from database import database as db
 from utils import Field
 from config import Config
-from forms import LoginForm, RegisterForm
+from forms import LoginForm, RegisterForm, EditProfileForm
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from flask_cors import CORS, cross_origin
 
@@ -13,6 +13,7 @@ login = LoginManager()
 app.config['SECRET_KEY'] = Config.SECRET_KEY
 attributes = ["Feldnummer", "Frucht", "Vorfrucht", "Zyklus", "Kalk", "Dünger", "pflügen", "walzen", "Status",
               "Feldgröße(in ha)"]
+
 
 # Flask-Login konfigurieren
 login_manager = LoginManager()
@@ -85,10 +86,42 @@ def register():
         form = RegisterForm()
         if form.validate_on_submit():
             data.add_user(form.username.data, form.password.data, form.role.data)
-            return redirect(url_for('index'))
-        return render_template('register.jinja', title='Register', form=form)
+            return redirect(url_for('dashboard'))
+        return render_template('register.jinja', title='Register', form=form, user=current_user.id)
     return redirect(url_for('index'))
 
+@app.route("/dashboard", methods=["GET", "POST"])
+@login_required
+def dashboard():
+    data = db.Database("database/main.db")
+    if not data.get_role(current_user.id):
+        return redirect(url_for('index'))
+    users = data.get_all_users()
+    users_type = fieldCheck(users)
+    return render_template("dashboard.jinja",users_type=users_type, user=current_user.id, users=users)
+
+
+@app.route("/edituser/<username>", methods=["GET", "POST"])
+@login_required
+def edituser(username):
+    data = db.Database("database/main.db")
+    if not data.get_role(current_user.id):
+        return redirect(url_for('index'))
+    form = EditProfileForm()
+    if form.validate_on_submit():
+        data.edit_user(username, form.password.data)
+        return redirect(url_for('dashboard'))
+    return render_template('editUser.jinja', form=form, user=current_user.id, username=username)
+
+
+@app.route("/deleteuser/<username>", methods=["GET", "POST"])
+@login_required
+def deleteuser(username):
+    data = db.Database("database/main.db")
+    if not data.get_role(current_user.id):
+        return redirect(url_for('index'))
+    data.delete_user(username)
+    return redirect(url_for('dashboard'))
 
 @app.route("/attributesSearch", methods=["GET", "POST"])
 @login_required
@@ -139,7 +172,7 @@ def search():
 @cross_origin()
 def add():
     if request.method == "GET":
-        return render_template('add.jinja', attributes=attributes)
+        return render_template('add.jinja', attributes=attributes, user=current_user.id)
     else:
         data = db.Database("database/main.db")
         fieldnumber = request.form.get("fieldnumber")
@@ -167,7 +200,7 @@ def edit(id):
     fields = data.read(id)
     if request.method == "GET":
         fields_type = fieldCheck(fields)
-        return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type)
+        return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
     else:
         fieldnumber = fields[0]
         newfield = {

@@ -16,3 +16,9 @@ class RegisterForm(FlaskForm):
     confirm_password = PasswordField('Confirm Password', validators=[DataRequired(), EqualTo('password')])
     role = BooleanField('Admin')
     submit = SubmitField('Register')
+
+
+class EditProfileForm(FlaskForm):
+    password = PasswordField('Password', validators=[DataRequired()])
+    confirm_password = PasswordField('Confirm Password', validators=[DataRequired()])
+    submit = SubmitField('Update')

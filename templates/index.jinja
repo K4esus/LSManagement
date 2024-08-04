@@ -1,6 +1,19 @@
 {% extends "base.jinja" %}
 
 {% block content %}
+    <form action="/search" method="POST">
+        <input class="search-input" name="search_query" type="search" placeholder="Suche nach Nummer">
+        <button type="submit">Suchen</button>
+
+        <div>{{ notFound }}</div>
+    </form>
+    <button type="button" onclick="addField()">Hinzufügen</button>
+
+    <script>
+        function addField() {
+            window.location.replace("/add")
+        }
+    </script>
     <div>
         <table style="width:100%">
         <!-- Suche nach Attributen-->

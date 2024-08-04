@@ -1,0 +1,31 @@
+{% extends "base.jinja" %}
+
+{% block content %}
+    <button type="button" onclick=window.location.replace("/register")>Add User</button>
+    <div>
+        <table>
+            <tr>
+                <th>Username</th>
+                <th>Admin</th>
+                <th>Edit User</th>
+            </tr>
+            {% if not users_type %}
+                <tr>
+                    <th>{{ users[0] }}</th>
+                    <th>{{ user[1] }}</th>
+                    <th><button type="button" onclick=window.location.replace("edituser/{{ users[0] }}")>Edit {{ users[0] }}</button></th>
+                    <th><button type="button" onclick=window.location.replace("deleteuser{{ users[0] }}")>Delete</button> </th>
+                </tr>
+            {% else %}
+                {% for user in users %}
+                    <tr>
+                        <th>{{ user[0] }}</th>
+                        <th>{{ user[1] }}</th>
+                        <th><button type="button" onclick=window.location.replace("edituser/{{ user[0] }}")>Edit {{ user[0] }}</button></th>
+                        <th><button type="button" onclick=window.location.replace("deleteuser/{{ user[0] }}")>Delete</button></th>
+                    </tr>
+                {% endfor %}
+            {% endif %}
+        </table>
+    </div>
+{% endblock %}

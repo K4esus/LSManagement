@@ -56,14 +56,20 @@ class Database:
     def edit_user(self, username, password):
         password_hash = generate_password_hash(password)
         try:
-            self.cursor.execute("UPDATE user SET password_hash = ? WHERE username = ?",(password_hash, username))
+            self.cursor.execute("UPDATE user SET password_hash = ? WHERE username = ?", (password_hash, username))
             self.conn.commit()
         except:
             logger.debug(f"failed to update user {username}")
             return
         logger.debug(f"updated user {username}")
 
+    def delete_user(self, username):
+        self.cursor.execute("DELETE FROM user WHERE username = ?", (username,))
+        self.conn.commit()
+        logger.debug(f"removed user: {username}")
 
+    def get_all_users(self):
+        return self.cursor.execute("SELECT username, admin FROM user").fetchall()
 
     def create(self, field: Field):
         try:
