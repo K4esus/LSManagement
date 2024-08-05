@@ -19,7 +19,11 @@ table, th, td {
     <div>
         <a href="{{ url_for('index') }}">Home</a>
         <a href="{{ url_for('logout') }}">Logout</a>
-        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% if role %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        {% else %}
+            <a href="{{ url_for('edituser', username=user) }}">Change Password</a>
+        {% endif %}
         <br>
         Aktueller Nutzer: {{ user }}
     </div>

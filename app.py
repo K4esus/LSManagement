@@ -72,7 +72,8 @@ def index():
     if request.method == "GET":
         fields = data.readall()
         fields_type = fieldCheck(fields)
-        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
+        user_role = data.get_role(current_user.id)
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id, role=user_role)
     else:
         searchTerm = request.get_json()
         return redirect(url_for("attributesSearch"))
@@ -82,12 +83,13 @@ def index():
 @login_required
 def register():
     data = db.Database("database/main.db")
+    user_role = data.get_role(current_user.id)
     if data.get_role(current_user.id):
         form = RegisterForm()
         if form.validate_on_submit():
             data.add_user(form.username.data, form.password.data, form.role.data)
             return redirect(url_for('dashboard'))
-        return render_template('register.jinja', title='Register', form=form, user=current_user.id)
+        return render_template('register.jinja', title='Register', form=form, user=current_user.id, role=user_role)
     return redirect(url_for('index'))
 
 @app.route("/dashboard", methods=["GET", "POST"])
@@ -98,20 +100,22 @@ def dashboard():
         return redirect(url_for('index'))
     users = data.get_all_users()
     users_type = fieldCheck(users)
-    return render_template("dashboard.jinja",users_type=users_type, user=current_user.id, users=users)
+    user_role = data.get_role(current_user.id)
+    return render_template("dashboard.jinja",users_type=users_type, user=current_user.id, users=users, role=user_role)
 
 
 @app.route("/edituser/<username>", methods=["GET", "POST"])
 @login_required
 def edituser(username):
     data = db.Database("database/main.db")
-    if not data.get_role(current_user.id):
+    if not (data.get_role(current_user.id) or username == current_user.id):
         return redirect(url_for('index'))
     form = EditProfileForm()
     if form.validate_on_submit():
         data.edit_user(username, form.password.data)
         return redirect(url_for('dashboard'))
-    return render_template('editUser.jinja', form=form, user=current_user.id, username=username)
+    user_role = data.get_role(current_user.id)
+    return render_template('editUser.jinja', form=form, user=current_user.id, username=username, role=user_role)
 
 
 @app.route("/deleteuser/<username>", methods=["GET", "POST"])
@@ -141,7 +145,8 @@ def attributesSearch():
     }
     fields = data.read_by_attribute(newfield)
     fields_type = fieldCheck(fields)
-    return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
+    user_role = data.get_role(current_user.id)
+    return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id, role=user_role)
 
 
 @app.route("/logout")
@@ -158,23 +163,25 @@ def search():
     search_query = request.form["search_query"]
     fields = data.read(search_query)
     fields_type = fieldCheck(fields)
+    user_role = data.get_role(current_user.id)
     if fields is not None:
-        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
+        return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id, role=user_role)
     else:
         fields = data.readall()
         fields_type = fieldCheck(fields)
         return render_template('index.jinja', attributes=attributes, fields=fields, fields_type=fields_type,
-                               notFound="Searchterm not found", user=current_user.id)
+                               notFound="Searchterm not found", user=current_user.id, role=user_role)
 
 
 @app.route("/add", methods=["GET", "POST"])
 @login_required
 @cross_origin()
 def add():
+    data = db.Database("database/main.db")
+    user_role = data.get_role(current_user.id)
     if request.method == "GET":
-        return render_template('add.jinja', attributes=attributes, user=current_user.id)
+        return render_template('add.jinja', attributes=attributes, user=current_user.id, role=user_role)
     else:
-        data = db.Database("database/main.db")
         fieldnumber = request.form.get("fieldnumber")
         newfield = {
             "crop": request.form.get("crop"),
@@ -198,9 +205,10 @@ def add():
 def edit(id):
     data = db.Database("database/main.db")
     fields = data.read(id)
+    user_role = data.get_role(current_user.id)
     if request.method == "GET":
         fields_type = fieldCheck(fields)
-        return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id)
+        return render_template('edit.jinja', attributes=attributes, fields=fields, fields_type=fields_type, user=current_user.id, role=user_role)
     else:
         fieldnumber = fields[0]
         newfield = {
