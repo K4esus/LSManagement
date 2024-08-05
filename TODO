@@ -3,3 +3,11 @@ Admin Page: DONE
     combining edit and add user
 
 User can change password: Done
+
+Mehrere Höfe mit zugehörigen Feldern
+    DB für Höfe oder felddaten mit Höfen
+    Felder und Höfe verlinken
+    Bei Usererstellung mit angeben auf welche Höfe der Nutzer zugriff hat
+    DB zum speichern welcher User zu welchem Hof gehört
+    Auswahlmenü welcher Hof aktuell ausgewählt ist
+    Admins haben auf alle zugriff
