@@ -124,6 +124,8 @@ def deleteuser(username):
     data = db.Database("database/main.db")
     if not data.get_role(current_user.id):
         return redirect(url_for('index'))
+    if current_user.id == username:
+        return redirect(url_for('dashboard'))
     data.delete_user(username)
     return redirect(url_for('dashboard'))
 

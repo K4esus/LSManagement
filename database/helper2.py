@@ -26,9 +26,9 @@ def test_db():
 
 def test_user():
     data = db.Database("../database/main.db")
-    username = "test2"
-    password = "test2"
-    admin = False
+    username = "test"
+    password = "test"
+    admin = True
     if username != "" and password != "":
         data.add_user(username, password, admin)
         #print(data.check_user(username, password))
